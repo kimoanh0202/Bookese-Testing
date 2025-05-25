@@ -26,6 +26,7 @@ public class chinhSuaChoNghiPage {
     private By sleTinhTP = By.xpath("//body/div/div/div[@role='dialog']/div[@role='document']/div[@class='modal-content']/form/div[@class='ModalEditLocation_ModalBody__dnUHj modal-body']/div[@class='FormField_Component__tD-GQ']/div[4]/div[2]/div[1]");
     private By sleQuanHuyen = By.xpath("//body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/form[1]/div[2]/div[1]/div[5]/div[2]/div[1]");
     private By slePhuongXa = By.xpath("//body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/form[1]/div[2]/div[1]/div[6]/div[2]/div[1]");
+    private By sleKhuvuc = By.xpath("//body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/form[1]/div[2]/div[1]/div[7]/div[2]/div[1]/div[1]");
     private By txtDiaChi = By.xpath("//input[@id='address']");
     private By txtDinhVi = By.xpath("//input[@id='coordinates']");
     private By txtMieutachonghi = By.xpath("//textarea[@id='description']");
@@ -144,6 +145,19 @@ public class chinhSuaChoNghiPage {
         wardOption.click();
         WaitTime.sleep(1000);
     }
+
+    public void updateKhuvuc(String Khuvuc) {
+        WebElement selectWard = getElement(sleKhuvuc);
+        selectWard.click();
+        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+        WebElement listBoxWard = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
+        ));
+        WebElement wardOption = listBoxWard.findElement(By.xpath(".//div[text()='" + Khuvuc + "']"));
+        wardOption.click();
+        WaitTime.sleep(1000);
+    }
+
 
     public void updateDiaChi(String DiaChi) {
         WebElement inputDiaChi = getElement(txtDiaChi);

@@ -5,11 +5,12 @@ import Common.WaitTime;
 import PageObjects.Login.loginPage;
 import PageObjects.QLGiaPhong.themGiaPhongPage;
 import PageObjects.TimKiemChoNghi.timKiemChoNghiPage;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.Arrays;
 
@@ -18,11 +19,22 @@ public class TC_themGiaPhong {
     timKiemChoNghiPage timkiemChonghi;
     themGiaPhongPage themGiaPhong;
 
+    static ExtentReports extent;
+    ExtentTest test;
 
-    @BeforeTest
-    public void beforeTest() {
-        System.out.println("Pre-condition");
+    @BeforeClass
+    public void beforeClass() {
+        System.out.println("Khởi tạo ExtentReport 1 lần trước toàn bộ testcase");
         System.setProperty("webdriver.chrome.driver", "browserDrivers/chromedriver.exe");
+
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("test-output/ExtentReport_ThemGiaPhong.html");
+        extent = new ExtentReports();
+        extent.attachReporter(htmlReporter);
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        System.out.println("Mở Chrome trước mỗi testcase");
         Constant.WEBDRIVER = new ChromeDriver();
         Constant.WEBDRIVER.manage().window().maximize();
 
@@ -35,27 +47,34 @@ public class TC_themGiaPhong {
         themGiaPhong = new themGiaPhongPage();
     }
 
-    @AfterTest
-    public void cleanup() {
-        System.out.println("Post-Condition");
+    @AfterMethod
+    public void afterMethod() {
+        System.out.println("Đóng Chrome sau mỗi testcase");
         if (Constant.WEBDRIVER != null) {
             Constant.WEBDRIVER.quit();
         }
     }
 
+    @AfterClass
+    public void afterClass() {
+        System.out.println("Flush báo cáo 1 lần sau cùng");
+        extent.flush();
+    }
 
     @Test
     public void TC01_themGiaPhong_Successfully() {
-        System.out.println("FURP002 - Xác minh rằng hệ thống thực hiện thêm loại giá mới khi người dùng nhấn button [Thêm]");
-        String tenCNAddNewPrice = "Khách sạn";
+        test = extent.createTest("TC01_themGiaPhong_Successfully", "Thêm loại giá mới thành công");
+        String tenCNAddNewPrice = "Legacy Hoi An Resort";
+        test.info("Tìm kiếm chỗ nghỉ: " + tenCNAddNewPrice);
 
         boolean isExist = timkiemChonghi.timKiemChoNghi(tenCNAddNewPrice);
         if (!isExist) {
-            System.out.println("Chỗ nghỉ không tồn tại trong hệ thống");
+            test.fail("Chỗ nghỉ không tồn tại");
             Assert.fail("Chỗ nghỉ không tồn tại trong hệ thống.");
             return;
         }
 
+        test.info("Thực hiện thêm loại giá");
         timkiemChonghi.hoverTenChoNghi();
         themGiaPhong.clickXemchitiet();
         themGiaPhong.clickGiavaTTP();
@@ -71,22 +90,22 @@ public class TC_themGiaPhong {
         String actualText = themGiaPhong.layNoiDungPopup();
         String expectedText = "Thêm loại giá mới thành công";
         Assert.assertEquals(actualText, expectedText, "Nội dung popup không khớp");
+        test.pass("Thêm loại giá thành công");
 
         themGiaPhong.clickClosePopup();
         Assert.assertEquals(themGiaPhong.layTenLoaiGiaCuoiCung(), "Super Price 2");
-        if (themGiaPhong.layTenLoaiGiaCuoiCung().equals("Super Price 2")) {
-            System.out.println("Loại giá được thêm thành công");
-        }
+        test.pass("Tên loại giá hiển thị đúng");
     }
 
     @Test
     public void TC02_themGiaPhong_BuaAn() {
-        System.out.println("FURP015 - Xác minh rằng khi chọn option “Có, thêm lựa chọn bữa ăn” nhưng không chọn bữa ăn nào, hệ thống hiển thị thông báo");
-        String tenCNAddNewPrice = "Khách sạn";
+        test = extent.createTest("TC02_themGiaPhong_BuaAn", "Không chọn bữa ăn nào thì báo lỗi");
+        String tenCNAddNewPrice = "Legacy Hoi An Resort";
+        test.info("Tìm kiếm chỗ nghỉ: " + tenCNAddNewPrice);
 
         boolean isExist = timkiemChonghi.timKiemChoNghi(tenCNAddNewPrice);
         if (!isExist) {
-            System.out.println("Chỗ nghỉ không tồn tại trong hệ thống");
+            test.fail("Chỗ nghỉ không tồn tại");
             Assert.fail("Chỗ nghỉ không tồn tại trong hệ thống.");
             return;
         }
@@ -97,21 +116,23 @@ public class TC_themGiaPhong {
         themGiaPhong.clickLoaiGia();
         themGiaPhong.clickButtonThem();
 
+        test.info("Không chọn bữa ăn nào");
         themGiaPhong.chonBuaAnBaoGom("Có, thêm lựa chọn bữa ăn", Arrays.asList());
 
         String actualText = themGiaPhong.layNoiDungError();
-        String expectedText = "Bữa ăn không được để trống";
-        Assert.assertEquals(actualText, expectedText, "Nội dung lỗi không khớp");
+        Assert.assertEquals(actualText, "Bữa ăn không được để trống", "Nội dung lỗi không khớp");
+        test.pass("Lỗi được hiển thị đúng khi không chọn bữa ăn");
     }
 
     @Test
     public void TC03_themGiaPhong_loaiPhongApDung() {
-        System.out.println("FURP020 - Xác minh rằng khi nhấn button “Chọn tất cả”, tất cả checkbox đều được tick chọn");
-        String tenCNAddNewPrice = "Khách sạn";
+        test = extent.createTest("TC03_themGiaPhong_loaiPhongApDung", "Chọn tất cả loại phòng");
+        String tenCNAddNewPrice = "Legacy Hoi An Resort";
+        test.info("Tìm kiếm chỗ nghỉ: " + tenCNAddNewPrice);
 
         boolean isExist = timkiemChonghi.timKiemChoNghi(tenCNAddNewPrice);
         if (!isExist) {
-            System.out.println("Chỗ nghỉ không tồn tại trong hệ thống");
+            test.fail("Chỗ nghỉ không tồn tại");
             Assert.fail("Chỗ nghỉ không tồn tại trong hệ thống.");
             return;
         }
@@ -121,17 +142,21 @@ public class TC_themGiaPhong {
         themGiaPhong.clickGiavaTTP();
         themGiaPhong.clickLoaiGia();
         themGiaPhong.clickButtonThem();
+
+        test.info("Nhấn chọn tất cả loại phòng");
         themGiaPhong.chonTatCaCheckboxVaXacNhan();
+        test.pass("Tất cả loại phòng đã được tick chọn");
     }
 
     @Test
     public void TC04_themGiaPhong_loaiPhongApDung() {
-        System.out.println("FURP022 - Xác minh rằng số lượng phòng hiển thị khớp với số lượng phòng đã tạo ở dropdown [Loại Phòng]");
-        String tenCNAddNewPrice = "Khách sạn";
+        test = extent.createTest("TC04_themGiaPhong_loaiPhongApDung", "So sánh số lượng loại phòng hiển thị");
+        String tenCNAddNewPrice = "Legacy Hoi An Resort";
+        test.info("Tìm kiếm chỗ nghỉ: " + tenCNAddNewPrice);
 
         boolean isExist = timkiemChonghi.timKiemChoNghi(tenCNAddNewPrice);
         if (!isExist) {
-            System.out.println("Chỗ nghỉ không tồn tại trong hệ thống");
+            test.fail("Chỗ nghỉ không tồn tại");
             Assert.fail("Chỗ nghỉ không tồn tại trong hệ thống.");
             return;
         }
@@ -143,25 +168,22 @@ public class TC_themGiaPhong {
         themGiaPhong.clickButtonThem();
 
         themGiaPhong.countCheckboxes();
-        System.out.println("Số lượng loại phòng (Loại giá): " + themGiaPhong.checkboxCount);
-
         themGiaPhong.clickChoNghi();
         themGiaPhong.clickLoaiPhong();
-
         themGiaPhong.countRoomCards();
-        System.out.println("Số lượng loại phòng (Loại phòng): " + themGiaPhong.roomCardCount);
-
         themGiaPhong.soSanhSoLuong();
+        test.pass("Số lượng loại phòng khớp với dropdown");
     }
 
     @Test
     public void TC05_themGiaPhong_TenGia() {
-        System.out.println("FURP038 - Xác minh rằng trường textbox [Tên loại giá] là bắt buộc");
-        String tenCNAddNewPrice = "Khách sạn";
+        test = extent.createTest("TC05_themGiaPhong_TenGia", "Tên loại giá là bắt buộc");
+        String tenCNAddNewPrice = "Legacy Hoi An Resort";
+        test.info("Tìm kiếm chỗ nghỉ: " + tenCNAddNewPrice);
 
         boolean isExist = timkiemChonghi.timKiemChoNghi(tenCNAddNewPrice);
         if (!isExist) {
-            System.out.println("Chỗ nghỉ không tồn tại trong hệ thống");
+            test.fail("Chỗ nghỉ không tồn tại");
             Assert.fail("Chỗ nghỉ không tồn tại trong hệ thống.");
             return;
         }
@@ -173,14 +195,8 @@ public class TC_themGiaPhong {
         themGiaPhong.clickButtonThem();
 
         themGiaPhong.nhapTenLoaiGia("");
-
         String actualText = themGiaPhong.layNoiDungError_NamePrice();
-        String expectedText = "Tên loại giá không được để trống";
-        Assert.assertEquals(actualText, expectedText, "Nội dung lỗi không khớp");
-
-
+        Assert.assertEquals(actualText, "Tên loại giá không được để trống", "Nội dung lỗi không khớp");
+        test.pass("Hệ thống báo lỗi đúng khi tên loại giá trống");
     }
-
-
-
 }

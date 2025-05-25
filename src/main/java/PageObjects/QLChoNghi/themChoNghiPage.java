@@ -27,7 +27,7 @@ public class themChoNghiPage {
     // ===== POPUP / ERROR =====
     private By getTextPopup = By.xpath("//div[@class='ModalSuccess_ModalBody__1lRJk modal-body']");
     private By messageError = By.xpath("//div[@type='invalid']");
-    private By alertMessage = By.xpath("//div[@role='alert']/div[2]");
+    private By alertMessage = By.xpath("//div[contains(text(),'name_already_exists')]");
 
     // ===== BASIC INFORMATION =====
     private By sleLoaihinh = By.xpath("//form[@class='d-flex flex-column gap-4']//div[contains(@class,'select2-selection__value-container')]");
@@ -344,6 +344,10 @@ public class themChoNghiPage {
 
     public String getTextPopUp() {
         return getElement(getTextPopup).getText();
+    }
+
+    public String getTextAlert() {
+        return getElement(alertMessage).getText();
     }
 
     public void btnClosePopup(){
