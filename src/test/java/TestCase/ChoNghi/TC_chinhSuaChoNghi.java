@@ -58,21 +58,20 @@ public class TC_chinhSuaChoNghi {
     public void TC01_chinhSuaChoNghi_Gui() {
         test = extent.createTest("TC01_chinhSuaChoNghi_Gui", "FUUD001 - Xác minh rằng hệ thống cho phép người dùng chỉnh sửa chỗ nghỉ khi nhập đầy đủ tất cả các trường thông tin hợp lệ");
         try {
-            String tenCNUpdate = "Mountain";
+            String tenCNUpdate = "Melia Đà Nẵng";
             Assert.assertTrue(timkiemChonghi.timKiemChoNghi(tenCNUpdate), "Không tìm thấy chỗ nghỉ");
-            test.info("Tìm kiếm chỗ nghỉ: " + tenCNUpdate);
 
             timkiemChonghi.hoverTenChoNghi();
             chinhsuaChoNghi.clickXemchitiet();
             chinhsuaChoNghi.clickChinhSua();
 
-            chinhsuaChoNghi.updateTenCN("Mường Thanh");
+            chinhsuaChoNghi.updateTenCN("Melina Hội An");
             chinhsuaChoNghi.updateLoaiHinh("Khách sạn");
             chinhsuaChoNghi.updateHangSao("5");
-            chinhsuaChoNghi.updateTinhThanh("Đà Nẵng");
-            chinhsuaChoNghi.updateQuanHuyen("Quận Thanh Khê");
-            chinhsuaChoNghi.updatePhuongXa("Phường Xuân Hà");
-            chinhsuaChoNghi.updateKhuvuc("Sông Hàn");
+            chinhsuaChoNghi.updateTinhThanh("Quảng Nam");
+            chinhsuaChoNghi.updateQuanHuyen("Thành phố Hội An");
+            chinhsuaChoNghi.updatePhuongXa("Phường Cửa Đại");
+            chinhsuaChoNghi.updateKhuvuc("Bãi Biển Cửa Đại");
             chinhsuaChoNghi.updateDiaChi("250 Bạch Đằng");
             chinhsuaChoNghi.updateDinhVi("16.074363164471208, 108.21400600837651");
             chinhsuaChoNghi.updateMieuTa("Khách sạn view cầu sông Hàn, trong trung tâm thành phố Đà Nẵng");
@@ -97,7 +96,6 @@ public class TC_chinhSuaChoNghi {
         try {
             String tenCNUpdate = "Logitech Hotel";
             Assert.assertTrue(timkiemChonghi.timKiemChoNghi(tenCNUpdate), "Không tìm thấy chỗ nghỉ");
-            test.info("Tìm kiếm chỗ nghỉ: " + tenCNUpdate);
 
             timkiemChonghi.hoverTenChoNghi();
             chinhsuaChoNghi.clickXemchitiet();
@@ -133,7 +131,6 @@ public class TC_chinhSuaChoNghi {
         try {
             String tenCNUpdate = "Hozito Hotel";
             Assert.assertTrue(timkiemChonghi.timKiemChoNghi(tenCNUpdate), "Không tìm thấy chỗ nghỉ");
-            test.info("Tìm kiếm chỗ nghỉ: " + tenCNUpdate);
 
             timkiemChonghi.hoverTenChoNghi();
             chinhsuaChoNghi.clickXemchitiet();
@@ -156,7 +153,6 @@ public class TC_chinhSuaChoNghi {
         try {
             String tenCNUpdate = "SunHouse Hotel";
             Assert.assertTrue(timkiemChonghi.timKiemChoNghi(tenCNUpdate), "Không tìm thấy chỗ nghỉ");
-            test.info("Tìm kiếm chỗ nghỉ: " + tenCNUpdate);
 
             timkiemChonghi.hoverTenChoNghi();
             chinhsuaChoNghi.clickXemchitiet();
@@ -186,7 +182,6 @@ public class TC_chinhSuaChoNghi {
         try {
             String tenCNUpdate = "Mandaza Hotel";
             Assert.assertTrue(timkiemChonghi.timKiemChoNghi(tenCNUpdate), "Không tìm thấy chỗ nghỉ");
-            test.info("Tìm kiếm chỗ nghỉ: " + tenCNUpdate);
 
             timkiemChonghi.hoverTenChoNghi();
             chinhsuaChoNghi.clickXemchitiet();

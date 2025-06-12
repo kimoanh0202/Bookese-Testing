@@ -24,7 +24,6 @@ public class TC_xoaChoNghi {
 
     @BeforeClass
     public void beforeClass() {
-        System.out.println("Khởi tạo ExtentReport 1 lần trước toàn bộ testcase");
         System.setProperty("webdriver.chrome.driver", "browserDrivers/chromedriver.exe");
 
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("test-output/ExtentReport_XoaChoNghi.html");
@@ -34,7 +33,6 @@ public class TC_xoaChoNghi {
 
     @BeforeMethod
     public void beforeMethod() {
-        System.out.println("Mở Chrome trước mỗi testcase");
         Constant.WEBDRIVER = new ChromeDriver();
         Constant.WEBDRIVER.manage().window().maximize();
 
@@ -49,7 +47,6 @@ public class TC_xoaChoNghi {
 
     @AfterMethod
     public void afterMethod() {
-        System.out.println("Đóng Chrome sau mỗi testcase");
         if (Constant.WEBDRIVER != null) {
             Constant.WEBDRIVER.quit();
         }
@@ -57,7 +54,6 @@ public class TC_xoaChoNghi {
 
     @AfterClass
     public void afterClass() {
-        System.out.println("Flush báo cáo 1 lần sau cùng");
         extent.flush();
     }
 
@@ -65,16 +61,15 @@ public class TC_xoaChoNghi {
     public void TC01_xoaChoNghi_Successfully() {
         test = extent.createTest("TC01_xoaChoNghi_Successfully", "FUDL001 - Xác minh rằng chỗ nghỉ đã bị xóa không còn tồn tại trong danh sách chỗ nghỉ");
 
-        String tenChoNghiCanXoa = "red sands pool villa";
-        test.info("Tìm kiếm chỗ nghỉ cần xóa: " + tenChoNghiCanXoa);
+        String tenChoNghiCanXoa = "red sands pool villa"; //tạo biến, chỉ lưu những gt đã trả về kq
 
-        boolean isExist = timkiemChonghi.timKiemChoNghi(tenChoNghiCanXoa);
+        boolean isExist = timkiemChonghi.timKiemChoNghi(tenChoNghiCanXoa); //ktra true false
         if (!isExist) {
             test.fail("Chỗ nghỉ không tồn tại");
             Assert.fail("Chỗ nghỉ không tồn tại trong hệ thống.");
             return;
         }
-
+        //tìm kiem là object chứa cua calss tkcnpage
         timkiemChonghi.hoverTenChoNghi();
         xoaChoNghiPage.clickXoa();
         xoaChoNghiPage.xacNhanXoa();

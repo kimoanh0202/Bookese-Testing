@@ -27,7 +27,7 @@ public class themChoNghiPage {
     // ===== POPUP / ERROR =====
     private By getTextPopup = By.xpath("//div[@class='ModalSuccess_ModalBody__1lRJk modal-body']");
     private By messageError = By.xpath("//div[@type='invalid']");
-    private By alertMessage = By.xpath("//div[contains(text(),'name_already_exists')]");
+    private By alertMessage = By.xpath("//div[contains(@class,'Toastify__toast-body')]/div[last()]");
 
     // ===== BASIC INFORMATION =====
     private By sleLoaihinh = By.xpath("//form[@class='d-flex flex-column gap-4']//div[contains(@class,'select2-selection__value-container')]");
@@ -59,8 +59,6 @@ public class themChoNghiPage {
 
     // ===== IMAGE =====
     private By addImg = By.xpath("//input[@accept='image/*']");
-    private By addImgSVG = By.xpath("//input[@accept='image/*']");
-
 
     // ===== POLICY =====
     private By slePolicy1 = By.xpath("//input[@id='policy1']");
@@ -93,15 +91,21 @@ public class themChoNghiPage {
         WaitTime.sleep(1000);
     }
 
-    public void sleHangSao(String Hangsao) {
+    public void sleHangSao(String hangSao) {
         WebElement selectStar = getElement(sleHangSao);
         selectStar.click();
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
-        WebElement listBoxStar = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
-        ));
-        WebElement starOption = listBoxStar.findElement(By.xpath(".//div[text()='" + Hangsao + "']"));
-        starOption.click();
+
+        if (hangSao != null && !hangSao.trim().isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+            WebElement listBoxStar = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
+            ));
+            WebElement starOption = listBoxStar.findElement(By.xpath(".//div[text()='" + hangSao + "']"));
+            starOption.click();
+        } else {
+            WebElement header = getElement(By.xpath("//label[contains(text(),'Hạng sao')]"));
+            header.click();
+        }
         WaitTime.sleep(1000);
     }
 
@@ -112,29 +116,44 @@ public class themChoNghiPage {
         WaitTime.sleep(1000);
     }
 
-    public void sleNgonNgu(String NgonNgu) {
+    public void sleNgonNgu(String ngonNgu) {
         WebElement selectLanguage = getElement(sleNgonNgu);
         selectLanguage.click();
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
-        WebElement listBoxLanguage = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
-        ));
-        WebElement languageOption = listBoxLanguage.findElement(By.xpath(".//div[text()='" + NgonNgu + "']"));
-        languageOption.click();
+
+        if (ngonNgu != null && !ngonNgu.trim().isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+            WebElement listBoxLanguage = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
+            ));
+            WebElement languageOption = listBoxLanguage.findElement(By.xpath(".//div[text()='" + ngonNgu + "']"));
+            languageOption.click();
+        } else {
+            WebElement header = getElement(By.xpath("//label[contains(text(),'Ngôn ngữ ưu tiên')]"));
+            header.click();
+        }
+
         WaitTime.sleep(1000);
     }
 
-    public void sleChucVu(String ChucVu) {
+    public void sleChucVu(String chucVu) {
         WebElement selectChucvu = getElement(sleChucVu);
         selectChucvu.click();
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
-        WebElement listBoxChucVu = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
-        ));
-        WebElement chucVuOption = listBoxChucVu.findElement(By.xpath(".//div[text()='" + ChucVu + "']"));
-        chucVuOption.click();
+
+        if (chucVu != null && !chucVu.trim().isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+            WebElement listBoxChucVu = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
+            ));
+            WebElement chucVuOption = listBoxChucVu.findElement(By.xpath(".//div[text()='" + chucVu + "']"));
+            chucVuOption.click();
+        } else {
+            WebElement header = getElement(By.xpath("//label[contains(text(),'Chức vụ')]"));
+            header.click();
+        }
+
         WaitTime.sleep(1000);
     }
+
 
     public void txtEmail(String Email) {
         WebElement inputEmail = getElement(txtEmail);
@@ -214,15 +233,22 @@ public class themChoNghiPage {
         WaitTime.sleep(1000);
     }
 
-    public void sleTenPhong(String Tenphong) {
+    public void sleTenPhong(String tenPhong) {
         WebElement selectRoomName = getElement(sleTenPhong);
         selectRoomName.click();
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
-        WebElement listBoxRoomName = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
-        ));
-        WebElement roomNameOption = listBoxRoomName.findElement(By.xpath(".//div[text()='" + Tenphong + "']"));
-        roomNameOption.click();
+
+        if (tenPhong != null && !tenPhong.trim().isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+            WebElement listBoxRoomName = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//div[contains(@class,'select2-selection__menu-list')]")
+            ));
+            WebElement roomNameOption = listBoxRoomName.findElement(By.xpath(".//div[text()='" + tenPhong + "']"));
+            roomNameOption.click();
+        } else {
+            WebElement header = getElement(By.xpath("//label[contains(text(),'Tên phòng')]"));
+            header.click();
+        }
+
         WaitTime.sleep(1000);
     }
 
@@ -295,6 +321,8 @@ public class themChoNghiPage {
                         "D:\\Testing\\Intern\\Wiicamp 2025\\img-test\\img3.jpg\n" +
                         "D:\\Testing\\Intern\\Wiicamp 2025\\img-test\\img4.jpg"
         );
+        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("preloader")));
     }
 
     public void clickBTT_Information() {
@@ -344,6 +372,7 @@ public class themChoNghiPage {
 
     public String getTextPopUp() {
         return getElement(getTextPopup).getText();
+        //khai báo function giá trị nên cần return
     }
 
     public String getTextAlert() {
@@ -355,12 +384,13 @@ public class themChoNghiPage {
         WaitTime.sleep(1000);
     }
 
-    public List<WebElement> isTenChoNghiDisplayed(String tenChoNghi) {
-        List<WebElement> ketQuaTimKiem = Constant.WEBDRIVER.findElements(By.xpath("//td[2][contains(text(),'" + tenChoNghi + "')]"));
+    public List<WebElement> isTenChoNghiDisplayed(String TCN) { //co 1 gia trị truyen vao de di so sanh
+        //WebElement là kiểu dữ liệu đại diện cho 1 phần tử HTML
+        List<WebElement> ketQuaTimKiem = Constant.WEBDRIVER.findElements(By.xpath("//td[2][contains(text(),'" + TCN + "')]"));
         List<WebElement> ketQuaChinhXac = new ArrayList<>();
         for (WebElement element : ketQuaTimKiem) {
-            if (element.getText().equals(tenChoNghi)) {
-                ketQuaChinhXac.add(element);
+            if (element.getText().equals(TCN)) {
+                ketQuaChinhXac.add(element); //lấy elent lưu vào kqchinhxac
             }
         }
         return ketQuaChinhXac;

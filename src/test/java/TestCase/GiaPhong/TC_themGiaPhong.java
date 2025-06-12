@@ -24,7 +24,6 @@ public class TC_themGiaPhong {
 
     @BeforeClass
     public void beforeClass() {
-        System.out.println("Khởi tạo ExtentReport 1 lần trước toàn bộ testcase");
         System.setProperty("webdriver.chrome.driver", "browserDrivers/chromedriver.exe");
 
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("test-output/ExtentReport_ThemGiaPhong.html");
@@ -34,7 +33,6 @@ public class TC_themGiaPhong {
 
     @BeforeMethod
     public void beforeMethod() {
-        System.out.println("Mở Chrome trước mỗi testcase");
         Constant.WEBDRIVER = new ChromeDriver();
         Constant.WEBDRIVER.manage().window().maximize();
 
@@ -49,7 +47,6 @@ public class TC_themGiaPhong {
 
     @AfterMethod
     public void afterMethod() {
-        System.out.println("Đóng Chrome sau mỗi testcase");
         if (Constant.WEBDRIVER != null) {
             Constant.WEBDRIVER.quit();
         }
@@ -57,7 +54,6 @@ public class TC_themGiaPhong {
 
     @AfterClass
     public void afterClass() {
-        System.out.println("Flush báo cáo 1 lần sau cùng");
         extent.flush();
     }
 
